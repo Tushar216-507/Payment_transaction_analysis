@@ -22,10 +22,5 @@ def validate_csv(filename,filepath):
         logger.warning(f'Given file is not a csv file. Received file_extension:{extension}')
         return None
     df = pd.read_csv(filepath)
-    csv_data = df.to_dict(orient='records')
-
-    if not csv_data:
-        logger.warning('Csv is empty or data not parsed')
-        return None
     
-    return csv_data
+    return df
