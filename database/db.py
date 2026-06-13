@@ -36,18 +36,20 @@ def init_database():
         if conn.is_connected():
             cursor = conn.cursor()
 
-        cursor.execute(f'CREATE DATABASE IF NOT EXISTS {Config.DB_NAME}')
-        cursor.execute(f'USE {Config.DB_NAME}')
+            cursor.execute(f'CREATE DATABASE IF NOT EXISTS {Config.DB_NAME}')
+            cursor.execute(f'USE {Config.DB_NAME}')
 
-        with open('database/schema.sql', 'r') as f:
-            sql_commands = f.read().split(';')
-            for commands in sql_commands:
-                if commands.strip():
-                    cursor.execute(commands)
+            with open('database/schema.sql', 'r') as f:
+                sql_commands = f.read().split(';')
+                for commands in sql_commands:
+                    if commands.strip():
+                        cursor.execute(commands)
+
         conn.commit()
         conn.close()
             
     except Exception as e:
-        logger.error('Database Initialization Failed with error {e}')
+        logger.error(f'Database Initialization Failed with error: {e}')
         return None
     
+
