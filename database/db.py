@@ -320,3 +320,98 @@ def update_job_status(
 
     cursor.close()
     conn.close()
+
+def get_job_by_id(job_id):
+
+    conn = get_db_connection()
+    cursor = conn.cursor(
+        dictionary=True
+    )
+
+    query = """
+    SELECT *
+    FROM job
+    WHERE id=%s
+    """
+
+    cursor.execute(
+        query,
+        (job_id,)
+    )
+
+    result = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return result
+
+def get_all_jobs():
+
+    conn = get_db_connection()
+
+    cursor = conn.cursor(
+        dictionary=True
+    )
+
+    query = """
+    SELECT *
+    FROM job
+    """
+
+    cursor.execute(query)
+
+    result = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return result
+
+def get_job_results(job_id):
+
+    conn = get_db_connection()
+
+    cursor = conn.cursor(
+        dictionary=True
+    )
+
+    query = """
+    SELECT *
+    FROM payment_transaction
+    WHERE job_id=%s
+    """
+
+    cursor.execute(
+        query,
+        (job_id,)
+    )
+
+    transactions = (
+        cursor.fetchall()
+    )
+
+    query = """
+    SELECT *
+    FROM job_summary
+    WHERE job_id=%s
+    """
+
+    cursor.execute(
+        query,
+        (job_id,)
+    )
+
+    summary = (
+        cursor.fetchone()
+    )
+
+    cursor.close()
+    conn.close()
+
+    return {
+        "transactions":
+        transactions,
+        "summary":
+        summary
+    }
