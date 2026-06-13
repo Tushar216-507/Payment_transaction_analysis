@@ -1,15 +1,25 @@
 CREATE TABLE IF NOT EXISTS job(
     id INT PRIMARY KEY AUTO_INCREMENT,
     filename VARCHAR(100) NOT NULL,
-    file_path TEXT NOT NULl,
-    status ENUM('pending', 'processing', 'completed', 'failed') DEFAULT 'pending' NOT NULL, 
-    row_count_raw INT, 
+    file_path TEXT NOT NULL,
+    status ENUM(
+        'pending',
+        'processing',
+        'completed',
+        'failed'
+    ) DEFAULT 'pending' NOT NULL,
+
+    row_count_raw INT,
     row_count_clean INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-    completed_at TIMESTAMP, 
+
+    created_at TIMESTAMP
+    DEFAULT CURRENT_TIMESTAMP,
+
+    completed_at TIMESTAMP
+    NULL DEFAULT NULL,
+
     error_message TEXT
 );
-
 CREATE TABLE IF NOT EXISTS payment_transaction(
     id INT PRIMARY KEY AUTO_INCREMENT,
     job_id INT NOT NULL,
